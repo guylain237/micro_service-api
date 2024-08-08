@@ -1,0 +1,10 @@
+services:
+  api_gateway:
+    environment:
+      - NODE_ENV=production
+    command: ["npm", "run", "start"]
+
+  micro_auth:
+    environment:
+      - NODE_ENV=production
+    command: ["npm", "run", "start"]

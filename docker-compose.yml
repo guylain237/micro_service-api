@@ -1,0 +1,49 @@
+
+services:
+  api_gateway:
+    build:
+      context: ./API_Gateway
+      dockerfile: Dockerfile
+    container_name: api_gateway  
+    ports:
+      - "3000:3000"
+    depends_on:
+      - micro_auth
+    networks:
+      - api_network
+    environment:
+      - PORT=3000  
+
+  micro_auth:
+    build: 
+      context: ./auth
+      dockerfile: Dockerfile
+    container_name: micro_auth  
+    environment:
+      - PORT=8080
+      - SECRET_KEY=cdhedsuzfhuezhfuezhfuisdhafuaihndzsfahuiehfnuehfuizsdhfiueh
+      - MONGO_URI=mongodb://mongo_auth/API_GATEWAY
+    restart: always
+    networks:
+      - api_network
+    depends_on: 
+     - mongo_auth  
+
+  mongo_auth:
+    image: mongo:latest
+    container_name: mongo_auth
+    ports:
+      - "27017:27017"
+    networks:
+      - api_network
+    volumes:
+      - mongodb_auth:/data/db
+
+
+networks:
+  api_network:
+    driver: bridge
+
+volumes:
+  mongodb_auth:
+    

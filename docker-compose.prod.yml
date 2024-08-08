@@ -8,3 +8,8 @@ services:
     environment:
       - NODE_ENV=production
     command: ["npm", "run", "start"]
+
+  micro_produit:
+    environment:
+      - NODE_ENV=production
+    command: ["npm", "run", "start"]  

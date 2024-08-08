@@ -29,16 +29,63 @@ services:
     depends_on: 
      - mongo_auth  
 
+  micro_prdoduit:
+    build: 
+      context: ./micro_produits
+      dockerfile: Dockerfile
+    container_name: micro_produit  
+    environment:
+      - PORT=8082
+      - MONGO_URI=mongodb://mongo_produit/API_GATEWAY
+      - MONGO_SSL=false
+    restart: always
+    networks:
+      - api_network
+    depends_on: 
+     - mongo_produit  
+    develop:
+      watch:
+        - path: ./API_Gateway/
+          target: /app/
+          action: sync
+        - path: ./API_Gateway/package.json
+          action: rebuild
+ 
+
+
   mongo_auth:
     image: mongo:latest
     container_name: mongo_auth
+    ports:
+      - "27018:27017"
+    networks:
+      - api_network
+    volumes:
+      - mongodb_auth:/data/db
+    develop:
+      watch:
+        - path: ./auth/
+          target: /app/
+          action: sync
+        - path: ./auth/package.json
+          action: rebuild  
+
+  mongo_produit:
+    image: mongo:latest
+    container_name: mongo_produit
     ports:
       - "27017:27017"
     networks:
       - api_network
     volumes:
-      - mongodb_auth:/data/db
-
+      - mongodb_produit:/data/db
+    develop:
+      watch:
+        - path: ./micro_produits/
+          target: /app/
+          action: sync
+        - path: ./micro_produits/package.json
+          action: rebuild  
 
 networks:
   api_network:
@@ -46,4 +93,5 @@ networks:
 
 volumes:
   mongodb_auth:
+  mongodb_produit:
     

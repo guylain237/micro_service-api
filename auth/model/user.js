@@ -26,7 +26,7 @@ const userSchema = mongoose.Schema({
             message: 'Le mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial'
         }
     },
-    role: { type: String, required: true, enum: ['user', 'admin'] }
+    role: { type: String, required: true, enum: ['user', 'admin'], default: 'user' }
 }, {
     timestamps: true,
 });

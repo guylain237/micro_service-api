@@ -1,7 +1,7 @@
 require("dotenv").config();
 const app = require("./app.js");
 
-const PORT = process.env.PORT || 8082;
+const PORT = process.env.PORT || 8083;
 
 app.get("/", (req, res) => {
     res.send("Welcome to the products microservice !")
